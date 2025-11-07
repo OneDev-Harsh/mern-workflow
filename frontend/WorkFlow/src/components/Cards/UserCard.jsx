@@ -20,12 +20,12 @@ const UserCard = ({ userInfo = {} }) => {
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className="w-screen max-w-full px-4 relative overflow-hidden rounded-2xl shadow-2xl"
     >
-      {/* Gradient Background */}
+      {/* linear Background */}
       <div className="absolute inset-0 bg-linear-to-br from-slate-900 via-slate-800 to-indigo-950 pointer-events-none" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Border Gradient */}
+      {/* Border linear */}
       <div className="absolute inset-0 bg-linear-to-r from-indigo-500/20 via-slate-700/10 to-indigo-500/20 rounded-2xl pointer-events-none" />
       <div className="absolute inset-0 rounded-2xl border border-indigo-500/30 pointer-events-none" />
 
@@ -141,7 +141,7 @@ const StatItem = ({ icon: Icon, label, count, accentColor, iconColor }) => {
       whileHover={{ y: -4 }}
       className={`relative overflow-hidden rounded-xl p-6 border border-indigo-500/20 bg-linear-to-br ${accentColor} backdrop-blur-sm group transition`}
     >
-      {/* Background Gradient Shimmer */}
+      {/* Background linear Shimmer */}
       <div className="absolute inset-0 bg-linear-to-r from-indigo-600/5 via-transparent to-indigo-600/5 opacity-0 group-hover:opacity-100 transition duration-300" />
 
       {/* Content */}

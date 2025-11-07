@@ -73,7 +73,7 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
         <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg 
-          bg-gradient-to-r from-indigo-600 to-indigo-700
+          bg-linear-to-r from-indigo-600 to-indigo-700
           hover:from-indigo-500 hover:to-indigo-600
           border border-indigo-500/40 text-white text-sm font-medium
           transition-all duration-300 shadow-lg hover:shadow-indigo-500/50"
@@ -114,12 +114,12 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950
+            className="bg-linear-to-br from-slate-900 via-slate-800 to-indigo-950
             border border-indigo-500/30 rounded-2xl shadow-2xl p-6 w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="mb-6">
-              <h3 className="text-xl font-bold bg-gradient-to-r from-indigo-300 to-indigo-200 bg-clip-text text-transparent mb-4">
+              <h3 className="text-xl font-bold bg-linear-to-r from-indigo-300 to-indigo-200 bg-clip-text text-transparent mb-4">
                 Assign Members
               </h3>
 
@@ -196,7 +196,7 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
                   </div>
 
                   {filteredUsers.length > 0 && (
-                    <div className="h-px bg-gradient-to-r from-transparent via-slate-600/30 to-transparent my-4" />
+                    <div className="h-px bg-linear-to-r from-transparent via-slate-600/30 to-transparent my-4" />
                   )}
                 </div>
               )}
@@ -272,7 +272,7 @@ const SelectUsers = ({ selectedUsers, setSelectedUsers }) => {
               </button>
               <button
                 onClick={handleAssign}
-                className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-indigo-700
+                className="px-4 py-2 rounded-lg bg-linear-to-r from-indigo-600 to-indigo-700
                 hover:from-indigo-500 hover:to-indigo-600 text-white font-medium transition-all duration-200 shadow-lg"
               >
                 Assign
