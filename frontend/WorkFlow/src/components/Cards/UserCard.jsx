@@ -9,6 +9,8 @@ const UserCard = ({ userInfo = {} }) => {
     role = "User",
     createdAt,
     profileImageUrl,
+    year,
+    rollNo,
     pendingTasks = 0,
     inProgressTasks = 0,
     completedTasks = 0,
@@ -74,8 +76,13 @@ const UserCard = ({ userInfo = {} }) => {
               />
               <DetailItem
                 icon={FaUserShield}
-                label="Role"
-                value={role}
+                label="Year"
+                value={year}
+              />
+              <DetailItem
+                icon={FaUserShield}
+                label="Roll No."
+                value={rollNo}
               />
               <DetailItem
                 icon={FaCalendarAlt}

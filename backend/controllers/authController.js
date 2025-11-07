@@ -16,7 +16,7 @@ const generateToken = (userId) => {
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, password, profileImageUrl, selectedRole ,adminInviteToken } = req.body;
+        const { name, email, password, profileImageUrl, selectedRole ,adminInviteToken, year, rollNo } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -37,7 +37,9 @@ const registerUser = async (req, res) => {
             email,
             password: hashedPassword,
             profileImageUrl,
-            role
+            role,
+            year,
+            rollNo
         });
 
         // Generate token
@@ -49,6 +51,8 @@ const registerUser = async (req, res) => {
             name: newUser.name,
             email: newUser.email,
             role: newUser.role,
+            year: newUser.year,
+            rollNo: newUser.rollNo,
             profileImageUrl: newUser.profileImageUrl,
             token
         });
@@ -84,6 +88,8 @@ const loginUser = async (req, res) => {
             name: user.name,
             email: user.email,
             role: user.role,
+            year: user.year,
+            rollNo: user.rollNo,
             profileImageUrl: user.profileImageUrl,
             token
         });
@@ -128,6 +134,8 @@ const updateUserProfile = async (req, res) => {
             name: updatedUser.name,
             email: updatedUser.email,
             role: updatedUser.role,
+            year: updatedUser.year,
+            rollNo: updatedUser.rollNo,
             token: generateToken(updatedUser._id),
         });
     } catch (error) {

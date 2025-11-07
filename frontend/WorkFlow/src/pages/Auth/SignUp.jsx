@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Mail, Lock, User, UserPlus, Users, Camera, Loader2, AlertCircle } from "lucide-react";
+import { Mail, Lock, User, UserPlus, Users, Camera, Loader2, AlertCircle, BookOpen, Hash } from "lucide-react";
 import { validateEmail } from "../../utils/helper";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -16,6 +16,8 @@ const SignUp = () => {
     profileImageUrl: "",
     adminInviteToken: "111111",
     userType: "admin",
+    year: "",
+    rollNo: "",
   });
   const [profileImage, setProfileImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -27,13 +29,12 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value });
-    if (error) setError(null); // Clear error on input change
+    if (error) setError(null);
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setError("Image size should be less than 5MB");
         return;
@@ -51,9 +52,9 @@ const SignUp = () => {
 
     let profileImageUrl = "";
 
-    const { name, email, password, confirmPassword, userType } = form;
+    const { name, email, password, confirmPassword, userType, year, rollNo } = form;
     
-    if (!name || !email || !password || !confirmPassword || !userType) {
+    if (!name || !email || !password || !confirmPassword || !userType || !year || !rollNo ) {
       setIsLoading(false);
       return setError("All fields are required.");
     }
@@ -87,6 +88,8 @@ const SignUp = () => {
         profileImageUrl,
         selectedRole: userType,
         adminInviteToken: form.adminInviteToken,
+        year,
+        rollNo,
       });
 
       const { token, role } = response.data;
@@ -143,7 +146,7 @@ const SignUp = () => {
 
       {/* Right Panel - Form */}
       <div className="relative z-10 w-full lg:w-1/2 max-w-md xl:max-w-lg animate-slide-up">
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl lg:rounded-3xl p-6 sm:p-8 lg:p-10 max-h-[90vh] overflow-y-auto">
           <div className="text-center mb-6 lg:mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-2">
               Create Account
@@ -271,7 +274,58 @@ const SignUp = () => {
               </div>
             </div>
 
-            
+            {/* Year and Roll No */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Year */}
+              <div className="group">
+                <label htmlFor="year" className="block text-sm mb-1.5 text-slate-300 font-medium">
+                  Year of College
+                </label>
+                <div className="relative">
+                  <BookOpen className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-indigo-400 w-5 h-5 transition-colors" />
+                  <select
+                    id="year"
+                    value={form.year}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-slate-100 transition-all duration-200 appearance-none cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    <option value="" disabled>
+                      Select Year
+                    </option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                  </select>
+                  {/* Custom dropdown arrow */}
+                  <div className="absolute right-3 top-3.5 pointer-events-none text-slate-500">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Roll No */}
+              <div className="group">
+                <label htmlFor="rollNo" className="block text-sm mb-1.5 text-slate-300 font-medium">
+                  Roll Number
+                </label>
+                <div className="relative">
+                  <Hash className="absolute left-3 top-3.5 text-slate-500 group-focus-within:text-indigo-400 w-5 h-5 transition-colors" />
+                  <input
+                    id="rollNo"
+                    type="text"
+                    value={form.rollNo}
+                    onChange={handleChange}
+                    placeholder="e.g., 001, A123"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder:text-slate-500 text-slate-100 transition-all duration-200 uppercase"
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+            </div>
 
             {/* Submit Button */}
             <button
