@@ -15,7 +15,7 @@ dotenv.config();
 //Middleware to handle CORS
 app.use(
     cors({
-        origin: "https://mern-workflow-frontend.onrender.com" || "*",
+        origin: ["http://localhost:5173", "https://mern-workflow-frontend.onrender.com"],
         methods: ["GET", "POST", "PUT", "DELETE"],
         allowedHeaders: ["Content-Type", "Authorization"],
     }
