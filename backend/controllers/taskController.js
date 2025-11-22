@@ -1,5 +1,7 @@
+import Activity from "../models/Activity.js";
 import Task from "../models/Task.js";
 import User from "../models/User.js";
+import { logActivity } from "../config/logActivity.js";
 
 const getTasks = async (req, res) => {
     try {
@@ -105,6 +107,8 @@ const createTask = async (req, res) => {
             todoChecklist,
             attachments
         });
+        await logActivity(newTask._id, req.user.id, "created this task");
+        await logActivity(newTask._id, req.user.id, `assigned task to ${assignedTo.length} user(s)`);
 
         res.status(201).json({message: 'Task created successfully', newTask});
     } catch (error) {
@@ -187,6 +191,7 @@ const updateTaskChecklist = async (req, res) => {
         }
 
         await task.save();
+        await logActivity(task._id, req.user.id, 'updated the task checklist');
 
         const updatedTask = await Task.findById(req.params.id).populate('assignedTo', 'name email profileImageUrl');
 
@@ -218,6 +223,8 @@ const updateTaskStatus = async (req, res) => {
         }
 
         await task.save();
+
+        await logActivity(task._id, req.user.id, `changed status to "${task.status}"`);
 
         res.status(200).json({ message: 'Task checklist updated successfully', task });
     } catch (error) {
@@ -389,6 +396,7 @@ export const addComment = async (req, res) => {
     });
 
     await task.save();
+    await logActivity(task._id, req.user.id, "added a comment");
 
     const populatedTask = await Task.findById(req.params.id)
       .populate("comments.user", "name email profileImageUrl");
@@ -401,6 +409,19 @@ export const addComment = async (req, res) => {
   } catch (error) {
     console.error("Error adding comment:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getTaskActivity = async (req, res) => {
+  try {
+    const logs = await Activity.find({ task: req.params.id })
+      .populate("user", "name profileImageUrl")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(logs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load activity log" });
   }
 };
 

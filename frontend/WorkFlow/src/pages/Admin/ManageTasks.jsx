@@ -17,6 +17,8 @@ const ManageTasks = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
+  const [sortByDueDate, setSortByDueDate] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -54,6 +56,15 @@ const ManageTasks = () => {
         });
       }
 
+      // If "Sort by Due Date" is enabled
+      if (sortByDueDate) {
+        tasks = [...tasks].sort((a, b) => {
+          const dateA = a.dueDate ? new Date(a.dueDate) : Infinity;
+          const dateB = b.dueDate ? new Date(b.dueDate) : Infinity;
+          return dateA - dateB;
+        });
+      }
+
       setAllTasks(tasks);
 
       // Recalculate status summary based on filtered tasks
@@ -77,6 +88,12 @@ const ManageTasks = () => {
       toast.error("Error fetching tasks");
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      getAllTasks();
+    }
+  }, [filterStatus, currentUser, sortByDueDate]);
 
   const handleTaskClick = (taskData) => {
     setSelectedTask(taskData);
@@ -138,6 +155,17 @@ const ManageTasks = () => {
               View, filter, and track all your tasks in one place.
             </p>
           </div>
+
+          <button
+            onClick={() => setSortByDueDate((prev) => !prev)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-300
+              ${sortByDueDate
+                ? "bg-indigo-600 text-white border-indigo-500 shadow-md"
+                : "bg-slate-800 text-slate-300 border-slate-600 hover:bg-slate-700"
+              }`}
+          >
+            {sortByDueDate ? "Sorted by Due Date" : "Sort by Due Date"}
+          </button>
 
           <button
             onClick={handleDownloadReport}
