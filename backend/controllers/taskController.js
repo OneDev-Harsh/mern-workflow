@@ -2,6 +2,7 @@ import Activity from "../models/Activity.js";
 import Task from "../models/Task.js";
 import User from "../models/User.js";
 import { logActivity } from "../config/logActivity.js";
+import { sendTaskAssignedEmail } from "../config/email.js";
 
 const getTasks = async (req, res) => {
     try {
@@ -107,6 +108,15 @@ const createTask = async (req, res) => {
             todoChecklist,
             attachments
         });
+
+        for (const userId of assignedTo) {
+            const user = await User.findById(userId);
+
+            if (user) {
+                await sendTaskAssignedEmail(user.email, user.name, newTask);
+            }
+        }
+
         await logActivity(newTask._id, req.user.id, "created this task");
         await logActivity(newTask._id, req.user.id, `assigned task to ${assignedTo.length} user(s)`);
 
