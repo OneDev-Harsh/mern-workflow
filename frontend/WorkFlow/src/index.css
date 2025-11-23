@@ -55,3 +55,21 @@
   background: rgba(129, 140, 248, 0.7); /* indigo-400 */
 }
 
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b; /* slate-800 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #6366f1; /* indigo-500 */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #818cf8; /* indigo-400 */
+}

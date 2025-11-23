@@ -56,7 +56,9 @@ const TaskSchema = new mongoose.Schema({
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         text: { type: String, required: true },
         createdAt: { type: Date, default: Date.now }
-    }]
+    }],
+    boardId: { type: String, default: null },
+    boardState: { type: Object, default: {} }
 }, { timestamps: true });
 
 const Task = mongoose.model('Task', TaskSchema);

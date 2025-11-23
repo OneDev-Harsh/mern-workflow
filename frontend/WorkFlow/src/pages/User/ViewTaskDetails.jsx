@@ -89,6 +89,17 @@ const ViewTaskDetails = () => {
     }
   };
 
+  useEffect(() => {
+  if (!task || !task.boardId) return; // wait until task exists
+
+  const interval = setInterval(() => {
+    axiosInstance.get(`/whiteboard/save/${task.boardId}`);
+  }, 10000);
+
+  return () => clearInterval(interval);
+}, [task?.boardId]);
+
+
   const updateTodoChecklist = async (index) => {
     const todoChecklist = [...task?.todoChecklist];
     const taskId = id;
@@ -241,6 +252,23 @@ const ViewTaskDetails = () => {
                 </div>
               </div>
             )}
+
+            <div className="bg-slate-900/50 rounded-xl border border-slate-700/60 p-4 mt-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-semibold text-indigo-300">Jam Board</h3>
+              </div>
+
+              {/* Board Container with custom scrollbar */}
+              <div className="rounded-xl overflow-hidden border border-slate-700/50">
+                <div className="max-h-[650px] overflow-y-auto custom-scrollbar">
+                  <iframe
+                    src={`https://wbo.ophir.dev/boards/${task.boardId}`}
+                    className="w-full h-[600px] rounded-b-xl"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
 
             {/* Comments Section */}
             <div className="bg-linear-to-br from-slate-900/80 to-indigo-900/20 p-6 rounded-xl border border-indigo-500/15">

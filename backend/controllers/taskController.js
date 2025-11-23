@@ -3,6 +3,7 @@ import Task from "../models/Task.js";
 import User from "../models/User.js";
 import { logActivity } from "../config/logActivity.js";
 import { sendTaskAssignedEmail } from "../config/email.js";
+import { v4 as uuidv4 } from "uuid";
 
 const getTasks = async (req, res) => {
     try {
@@ -92,6 +93,8 @@ const createTask = async (req, res) => {
     try {
         const { title, description,priority, dueDate, assignedTo, attachments, todoChecklist} = req.body;
 
+        const boardId = uuidv4();
+
         if(!Array.isArray(assignedTo)) {
             return res.status(400).json({ message: 'assignedTo must be an array of user IDs' });
         }
@@ -106,7 +109,8 @@ const createTask = async (req, res) => {
             assignedTo,
             createdBy: req.user._id,
             todoChecklist,
-            attachments
+            attachments,
+            boardId
         });
 
         for (const userId of assignedTo) {

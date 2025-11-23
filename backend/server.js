@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
+import whiteboardRoutes from "./routes/whiteboardRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -32,6 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/whiteboard", whiteboardRoutes);
 
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(path.resolve(), '/uploads')));
